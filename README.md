@@ -1,3 +1,5 @@
 # SwinVision: detecting small objects in low-light environments
 ## Introduction
+![SwinVision](resources/SwinVision.jpg)
+
 Neural networks have been widely used in the field of object detection. Transformers enable effective object detection through global context awareness, modular design, scalability, and adaptability to diverse target scales. However, small object detection requires careful consideration due to its complex computations, data requirements, and real-time performance challenges. We present SwinVision, an innovative framework for small object detection in low-light environments. We first introduce a Swin Transformer-based computing network optimized for real-time UAV monitoring in large areas. The framework strikes a balance between computational power and resource efficiency, surpassing conventional transformers. Then we present the STLE module, which enhances low-light image features for better object detection. Last is a specialized Swin-based detection block for accurate detection of small, detailed objects in resource-constrained scenarios.
