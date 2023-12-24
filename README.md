@@ -7,14 +7,14 @@ Neural networks have been widely used in the field of object detection. Transfor
 ## Install
 
 ```bash
-# clone the SwinVision repository
+# Clone the SwinVision repository
 git clone https://github.com/Leondav1s/SwinVision.git
 
-# navigate to the cloned directory
+# Navigate to the cloned directory
 # use ultralytics frame to 
 cd SwinVision/ultralytics
 
-# install the package in editable mode for development
+# Install the package in editable mode for development
 pip install -e .
 ```
 
@@ -23,10 +23,10 @@ pip install -e .
 **step1: use STLE to enhance your Images**
 
 ```bash
-# firstly put your images into SwinVision/SwinVision/STLE/enhance_dataset
+# Firstly put your images into SwinVision/SwinVision/STLE/enhance_dataset
 cd SwinVision/SwinVision/STLE
 
-# the enhanced images will be saved to the 'result' folder
+# The enhanced images will be saved to the 'result' folder
 python enhance.py
 ```
 
@@ -35,9 +35,42 @@ python enhance.py
 ```bash
 cd SwinVision/SwinVision/ultalytics
 
-# remember change the source to your enhanced images result path
+# Remember change the source to your enhanced images result path
 yolo detect predict model=SwinVision.pt source=../STLE/result/your/path
 ```
 
 ## Training
+
+- **STLE**
+
+```bash
+# Prepare the training set of the LOL dataset before training
+# Navigate to the directory
+cd SwinVision/SwinVision/STLE
+
+# Start training
+python train.py --trainset_path /your/path/to/LoLdataset/
+```
+
+- **SOF detector**
+
+``` bash
+cd SwinVision/SwinVision/ultalytics
+
+# Start training
+yolo detect train data=VisDrone.yaml model=./ultralytics/models/sof_detector.yaml epochs=300 batch=12 half=True
+```
+
+## Results and models
+
+VisDrone dataset
+
+|   Model    |         Backbone          |  mAP  | AP50  |                            Config                            |                         Google Drive                         |
+| :--------: | :-----------------------: | :---: | :---: | :----------------------------------------------------------: | :----------------------------------------------------------: |
+| SwinVision | Improved Swin Transformer | 34.05 | 59.47 | [SwinVision](./SwinVision/ultralytics/ultralytics/models/sof_detector.yaml) | [model](https://drive.google.com/file/d/1xF0-Pu07z39uleSkdIgZunzQl1LZOpzn/view?usp=sharing) |
+|  YOLOv8x   |       CSPDarkNet-53       | 27.74 | 46.92 | [YOLOv8x](./SwinVision/ultralytics/ultralytics/models/v8/yolov8.yaml) | [model](https://drive.google.com/file/d/1zoPEnSzpT1Zve3Yi1twqrHwy3ilxxxpd/view?usp=sharing) |
+
+## Acknowledgements
+
+A great thanks to [Swin-Transformer](https://github.com/microsoft/Swin-Transformer) , [ultralytics](https://github.com/ultralytics/ultralytics) for providing the basis for this code.
 
