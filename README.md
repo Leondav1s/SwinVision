@@ -63,7 +63,7 @@ yolo detect train data=VisDrone.yaml model=./ultralytics/models/sof_detector.yam
 
 ## Results and models
 
-VisDrone dataset
+The results of experiments are saved in 'experiments' folder.
 
 |   Model    |         Backbone          |  mAP  | AP50  |                            Config                            |                         Google Drive                         |
 | :--------: | :-----------------------: | :---: | :---: | :----------------------------------------------------------: | :----------------------------------------------------------: |
