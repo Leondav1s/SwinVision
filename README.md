@@ -11,7 +11,7 @@ Neural networks have been widely used in the field of object detection. Transfor
 git clone https://github.com/Leondav1s/SwinVision.git
 
 # Navigate to the cloned directory
-# use ultralytics frame to 
+# Use ultralytics framework
 cd SwinVision/ultralytics
 
 # Install the package in editable mode for development
