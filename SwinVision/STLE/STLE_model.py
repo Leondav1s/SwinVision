@@ -1,8 +1,3 @@
-"""
-## Tracker Meets Night: A Transformer Enhancer for UAV Tracking
-## By Junjie Ye
-"""
-
 import torch
 import torch.nn as nn
 import torch.utils.checkpoint as checkpoint
