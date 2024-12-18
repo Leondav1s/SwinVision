@@ -373,33 +373,37 @@ class _DWConv(nn.Module):
         return self.conv(x)
 
 class Resblock(nn.Module):
-
-    def __init__(self, dim=32, hidden_dim=128, act_layer=nn.GELU,drop = 0.):
+    def __init__(self, dim=32, hidden_dim=128, act_layer=nn.GELU):
         super(Resblock, self).__init__()
-        self.linear1 = nn.Sequential(nn.Linear(dim, hidden_dim),
-                                act_layer())
-        self.linear2 = nn.Sequential(nn.Linear(hidden_dim, dim))
-        self.block = nn.Sequential(
-            # pw
-            _ConvBNReLU(hidden_dim, hidden_dim, 1),
-            # dw
-            _DWConv(hidden_dim, hidden_dim, 1),
+        self.expand = nn.Sequential(
+            nn.Conv2d(dim, hidden_dim, kernel_size=1, bias=False),
+            nn.BatchNorm2d(hidden_dim),
             act_layer()
+        )
+        self.depth_block = nn.Sequential(
+            _DWConv(hidden_dim, hidden_dim),
+            act_layer()
+        )
+        
+        self.reduce = nn.Sequential(
+            nn.Conv2d(hidden_dim, dim, kernel_size=1, bias=False),
+            nn.BatchNorm2d(dim)
         )
 
     def forward(self, x):
-        # bs x hw x c
-        
+
         bs, hw, c = x.size()
         hh = int(math.sqrt(hw))
-        x = self.linear1(x)
-        # spatial restore
-        x = rearrange(x, ' b (h w) (c) -> b c h w ', h = hh, w = hh).contiguous()
+        
+        x = x.permute(0, 2, 1).contiguous().view(bs, c, hh, hh)
 
-        x = x+self.block(x)
-        # flaten
-        x = rearrange(x, ' b c h w -> b (h w) c', h = hh, w = hh).contiguous()
-        x = self.linear2(x)
+        x = self.expand(x)
+        
+        x = x + self.depth_block(x)
+
+        x = self.reduce(x)
+        
+        x = x.view(bs, c, hh*hh).permute(0, 2, 1).contiguous()
         return x
         
 #########################################
